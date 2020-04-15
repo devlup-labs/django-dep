@@ -1,0 +1,39 @@
+before:
+  hooks:
+    - go mod download
+builds:
+  - id: django_dep_linux
+    main: .
+    goos:
+      - linux
+    goarch:
+      - amd64
+      - 386
+  - id: django_dep_darwin
+    main: .
+    goos:
+      - darwin
+    goarch:
+      - amd64
+      - 386
+env:
+  - GO111MODULE=on
+archives:
+  - replacements:
+      darwin: macOS
+      linux: Linux
+      386: 32-bit
+      amd64: 64-bit
+    files:
+      - dj-dep.example.service
+      - scripts/deploy.sh
+checksum:
+  name_template: "checksums.txt"
+snapshot:
+  name_template: "{{ .Tag }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
