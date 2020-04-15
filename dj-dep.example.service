@@ -1,0 +1,13 @@
+[Unit]
+Description=django-dep daemon service
+
+[Service]
+ExecStart=/usr/local/bin/django-dep daemon
+Environment=TOKEN=random
+Restart=always
+KillSignal=SIGQUIT
+Type=notify
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target
