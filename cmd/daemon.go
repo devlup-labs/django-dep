@@ -1,7 +1,9 @@
 package cmd
 
 import (
-	"github.com/devlup-labs/django-dep/handler"
+	"fmt"
+	"github.com/devlup-labs/django-dep/config"
+	"github.com/devlup-labs/django-dep/router"
 	"github.com/spf13/cobra"
 	"net/http"
 )
@@ -13,7 +15,6 @@ var daemonCmd = &cobra.Command{
 }
 
 func daemonCmdF(command *cobra.Command, args []string) {
-	http.HandleFunc("/", handler.Deploy)
-	http.HandleFunc("/ping", handler.Ping)
-	http.ListenAndServe(":8080", nil)
+	r := router.NewRouter()
+	_ = http.ListenAndServe(fmt.Sprintf(":%d", config.Port()), r)
 }
