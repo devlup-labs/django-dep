@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os/exec"
+	"strings"
 )
 
 var (
@@ -25,7 +26,7 @@ var Deploy = func(request *restful.Request, response *restful.Response) {
 	}
 
 	if spec.Token == config.Token() {
-		cmd := exec.Command("./scripts/deploy.sh", spec.Reference)
+		cmd := exec.Command("./scripts/deploy.sh",spec.Reference, strings.Join(spec.Features,""), strings.Join(spec.Restart,""))
 		pipeReader, pipeWriter := io.Pipe()
 		cmd.Stdout = pipeWriter
 		cmd.Stderr = pipeWriter
