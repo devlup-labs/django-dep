@@ -3,13 +3,25 @@
 PROJECT_DIR="gymkhana"
 
 CI_COMMIT_SHA=$1
-echo $CI_COMMIT_SHA
+FEATURE_ARGS=$2
+RESTART_ARGS=$3
+cd "/var/www/"${PROJECT_DIR}"/dist"
+git pull origin master
+git checkout $CI_COMMIT_SHA
+pipenv install
+cd src
+case $FEATURE_ARGS$RESTART_ARGS in
 
-#cd "/var/www/"${PROJECT_DIR}"/dist"
-#git pull origin master
-#git checkout $CI_COMMIT_SHA
-#pipenv install
-#cd src
-#pipenv run python manage.py migrate
-#pipenv run python manage.py collectstatic --noinput
-#sudo service uwsgi restart
+"c")
+  pipenv run python manage.py collectstatic --noinput
+  ;;&
+"m")
+  pipenv run python manage.py migrate
+  ;;&
+"u")
+  sudo service uwsgi restart
+  ;;&
+"n")
+  sudo systemctl restart nginx
+  ;;&
+esac
