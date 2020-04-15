@@ -5,10 +5,11 @@ import (
 )
 
 type config struct {
-	logLevel  string
-	debugMode bool
-	port      int
-	token     string
+	logLevel   string
+	debugMode  bool
+	port       int
+	token      string
+	scriptPath string
 }
 
 var instance *config
@@ -28,11 +29,17 @@ func newConfig() *config {
 		port = 3000 // Fallback to default port
 	}
 
+	sp := v.GetString("scriptPath")
+	if sp == "" {
+		sp = "./script.sh"
+	}
+
 	return &config{
-		logLevel:  v.GetString("log.level"),
-		debugMode: v.GetBool("debug"),
-		port:      port,
-		token:     v.GetString("token"),
+		logLevel:   v.GetString("log.level"),
+		debugMode:  v.GetBool("debug"),
+		port:       port,
+		token:      v.GetString("token"),
+		scriptPath: v.GetString("scriptPath"),
 	}
 }
 
@@ -59,4 +66,9 @@ func Port() int {
 // Token returns the validation token to authorize the CI
 func Token() string {
 	return getConfig().token
+}
+
+// ScriptPath returns the path to the script which will be executed
+func ScriptPath() string {
+	return getConfig().scriptPath
 }
