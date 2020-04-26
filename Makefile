@@ -17,7 +17,7 @@ MAKEFLAGS += --silent
 install: go-get
 
 ## start: Start in development mode.
-start:
+start: go-get
 	@go run main.go daemon
 
 ## compile: Compile the binary.
