@@ -8,5 +8,6 @@ require (
 	github.com/json-iterator/go v1.1.9 // indirect
 	github.com/spf13/cobra v1.0.0
 	github.com/spf13/viper v1.4.0
+	github.com/stretchr/testify v1.3.0
 	go.uber.org/zap v1.10.0
 )
